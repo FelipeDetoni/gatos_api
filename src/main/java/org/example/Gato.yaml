@@ -1,0 +1,125 @@
+swagger: '2.0'
+info:
+  title: Gatos API
+  description: API for managing information about cats
+  version: 1.0.0
+host: localhost:8080  # Update with your actual host and port
+basePath: /your-app-context-root  # Update with your actual application context root
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /gatos:
+    post:
+      summary: Create a new cat
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: gato
+          description: The cat object to be created
+          required: true
+          schema:
+            $ref: '#/definitions/Gato'
+      responses:
+        '201':
+          description: Cat created successfully
+        '500':
+          description: Internal Server Error
+
+    get:
+      summary: Get a list of all cats
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Gato'
+        '500':
+          description: Internal Server Error
+
+  /gatos/{id}:
+    get:
+      summary: Get cat by ID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the cat to be retrieved
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Gato'
+        '404':
+          description: Cat not found
+        '500':
+          description: Internal Server Error
+
+    put:
+      summary: Update cat by ID
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the cat to be updated
+          required: true
+          type: integer
+        - in: body
+          name: gato
+          description: The updated cat object
+          required: true
+          schema:
+            $ref: '#/definitions/Gato'
+      responses:
+        '200':
+          description: Cat updated successfully
+        '404':
+          description: Cat not found
+        '500':
+          description: Internal Server Error
+
+    delete:
+      summary: Delete cat by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the cat to be deleted
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Cat deleted successfully
+        '404':
+          description: Cat not found
+        '500':
+          description: Internal Server Error
+
+definitions:
+  Gato:
+    type: object
+    properties:
+      id:
+        type: integer
+      nome:
+        type: string
+      idade:
+        type: integer
+      castrado:
+        type: boolean
+      sexo:
+        type: string
